@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AuthState, AuthResponse } from "@/types";
 
 const initialState: AuthState = {
-  user: null,
+  user: {},
   token: null,
   isAuthenticated: false,
   loading: false,
@@ -20,12 +20,8 @@ export const authSlice = createSlice({
       state.loading = false;
       state.error = null;
     },
-    logout: (state) => {
-      state.user = null;
-      state.token = null;
-      state.isAuthenticated = false;
-      state.loading = false;
-      state.error = null;
+    logout: () => {
+      return initialState;
     },
     setLoading: (state, action: PayloadAction<boolean>) => {
       state.loading = action.payload;
@@ -34,11 +30,15 @@ export const authSlice = createSlice({
       state.error = action.payload;
       state.loading = false;
     },
+    saveUserInfo: (state, action) => {
+      state.user = action.payload;
+    },
   },
 });
 
 // Actions
-export const { login, logout, setLoading, setError } = authSlice.actions;
+export const { login, logout, setLoading, setError, saveUserInfo } =
+  authSlice.actions;
 
 // Reducer
 export const authReducer = authSlice.reducer;

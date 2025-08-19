@@ -27,7 +27,7 @@ export interface AuthResponse {
   user: User;
 }
 
-export interface ForgotPasswordRequest {
+export interface sendOtpRequest {
   email: string;
 }
 
@@ -51,7 +51,7 @@ export interface ApiResponse<T = any> {
 
 // Redux types
 export interface AuthState {
-  user: User | null;
+  user: User | {};
   token: string | null;
   isAuthenticated: boolean;
   loading: boolean;

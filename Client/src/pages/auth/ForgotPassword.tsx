@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@mui/material";
 import { useAppDispatch } from "@redux/hooks";
 import { openSnackbar } from "@redux/snackbarSlice";
-import { forgotPassword } from "@/api/auth";
+import { sendOtp } from "@/api/auth";
 
 interface FormErrors {
   email?: string;
@@ -12,6 +12,7 @@ interface FormErrors {
 const ForgotPassword: React.FC = () => {
   const [email, setEmail] = useState<string>("");
   const [errors, setErrors] = useState<FormErrors>({});
+  
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
@@ -29,7 +30,7 @@ const ForgotPassword: React.FC = () => {
     if (Object.keys(newErrors).length > 0) return;
 
     try {
-      const response = await forgotPassword({ email });
+      const response = await sendOtp({ email });
       console.log(response.data);
       if (response.status === 200) {
         if (email) {
@@ -50,7 +51,6 @@ const ForgotPassword: React.FC = () => {
       const data = error.response?.data;
 
       if (status === 404) {
-        // Email not found
         newErrors.email = "*Email không tồn tại";
       } else if (data?.error || data?.message) {
         newErrors.email = `*${data.message || data.error}`;
@@ -58,7 +58,7 @@ const ForgotPassword: React.FC = () => {
         newErrors.email = "*error";
       }
 
-      setErrors({ ...newErrors }); // <-- ensure a new object to trigger re-render
+      setErrors({ ...newErrors });
     }
   };
 
