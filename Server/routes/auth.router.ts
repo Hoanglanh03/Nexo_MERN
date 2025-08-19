@@ -3,7 +3,7 @@ import {
   register,
   login,
   refreshAccessToken,
-  forgotPassword,
+  sendOtp,
   verifyOtp,
   resetPassword,
 } from "../controllers/auth.controllers";
@@ -17,7 +17,7 @@ router.post("/register", register);
 router.post("/login", login);
 
 // POST /api/auth/forgot-password
-router.post("/forgot-password", forgotPassword);
+router.post("/send-otp", sendOtp);
 
 // POST /api/auth/verify-otp
 router.post("/verify-otp", verifyOtp);

@@ -20,7 +20,7 @@ const otpSchema = new Schema<IOtp>({
   createdAt: {
     type: Date,
     default: Date.now,
-    expires: 300,
+    expires: 30,
   },
   verified: { type: Boolean, default: false },
 });

@@ -20,7 +20,7 @@ interface LoginRequest extends Request {
   };
 }
 
-interface ForgotPasswordRequest extends Request {
+interface SendOtp extends Request {
   body: {
     email: string;
   };
@@ -176,10 +176,7 @@ const login = async (req: LoginRequest, res: Response): Promise<void> => {
 };
 
 //FORGOTPASSWORD (sent OTP)
-const forgotPassword = async (
-  req: ForgotPasswordRequest,
-  res: Response
-): Promise<void> => {
+const sendOtp = async (req: SendOtp, res: Response): Promise<void> => {
   try {
     const { email } = req.body;
 
@@ -251,14 +248,22 @@ const verifyOtp = async (req: Request, res: Response): Promise<void> => {
     }
 
     const otpRecord = await OtpModel.findOne({ email });
+
     if (!otpRecord) {
       res.status(400).json({ message: "OTP đã hết hạn hoặc không tồn tại" });
       return;
     }
 
+    const now = new Date();
+    const diff = (now.getTime() - otpRecord.createdAt.getTime()) / 1000;
+    if (diff > 30) {
+      res.status(401).json({ message: "OTP đã hết hạn" });
+      return;
+    }
+
     const isMatch = await bcrypt.compare(otp, otpRecord.otp);
     if (!isMatch) {
-      res.status(400).json({ message: "OTP không hợp lệ" });
+      res.status(400).json({ message: "*Invalid OTP" });
       return;
     }
 
@@ -283,6 +288,8 @@ const resetPassword = async (req: Request, res: Response): Promise<void> => {
     }
 
     const otpRecord = await OtpModel.findOne({ email });
+    console.log("otpRecord _ resetPassword", otpRecord);
+
     if (!otpRecord || !otpRecord.verified) {
       res.status(400).json({ message: "OTP chưa được xác thực" });
       return;
@@ -361,7 +368,7 @@ export {
   login,
   register,
   refreshAccessToken,
-  forgotPassword,
+  sendOtp,
   verifyOtp,
   resetPassword,
 };
