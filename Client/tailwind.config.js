@@ -9,10 +9,18 @@ export default {
       },
       colors: {
         dark: {
-          100: "#F8F7FA",
+          100: "#4B465C",
+          200: "#F8F7FA",
+          300: "#DBDADE",
         },
         label: {
           100: "#4B465C",
+        },
+        primary: {
+          main: "#246AA3",
+        },
+        background: {
+          main: "#F8F7FA",
         },
       },
     },
