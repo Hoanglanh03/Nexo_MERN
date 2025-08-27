@@ -1,3 +1,5 @@
+import * as React from "react";
+
 // User types
 export interface User {
   id: string;
@@ -42,6 +44,20 @@ export interface resetPasswordRequest {
   newPassword: String;
 }
 
+export interface IPost {
+  content: string;
+  image: File | null | string;
+}
+
+export interface postCredentials {
+  fullName: string;
+  createdAt: string | Date;
+  content: string;
+  image: string;
+  likes: ILike[];
+  comments: string;
+}
+
 // API Response types
 export interface ApiResponse<T = any> {
   message: string;
@@ -51,11 +67,10 @@ export interface ApiResponse<T = any> {
 
 // Redux types
 export interface AuthState {
-  user: User | {};
-  token: string | null;
-  isAuthenticated: boolean;
-  loading: boolean;
-  error: string | null;
+  accessToken: string | null;
+  refreshToken: string | null;
+  user: Record<string, any>; // hoặc { id: string; email: string }
+  message?: string;
 }
 
 // Form types
@@ -66,6 +81,12 @@ export interface FormField {
   placeholder?: string;
   required?: boolean;
   validation?: any;
+}
+
+export interface ILike {
+  user: { id: string; email: string; fullName: string };
+  post: { id: string };
+  createdAt: string;
 }
 
 // Component props types
@@ -93,5 +114,5 @@ export interface InputProps {
   helperText?: string;
   value?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
+  onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void; // ✅
 }

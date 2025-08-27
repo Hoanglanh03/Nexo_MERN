@@ -4,7 +4,7 @@ import { Button } from "@mui/material";
 import { MuiOtpInput } from "mui-one-time-password-input";
 import { useAppDispatch } from "@redux/hooks";
 import { sendOtp, verifyOtp } from "@/api/auth";
-import { openSnackbar } from "@redux/snackbarSlice";
+import { openSnackbar } from "@/redux/slices/snackbarSlice";
 
 const OTPVerifyPage: React.FC = () => {
   const location = useLocation();

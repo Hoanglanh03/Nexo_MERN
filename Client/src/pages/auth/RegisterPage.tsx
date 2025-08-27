@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@mui/material";
 import { useAppDispatch } from "@redux/hooks";
-import { openSnackbar } from "@redux/snackbarSlice";
+import { openSnackbar } from "@/redux/slices/snackbarSlice";
 import { registerUser } from "../../api/auth";
 import { RegisterCredentials } from "@/types";
 

@@ -2,20 +2,28 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { ThemeProvider } from "@emotion/react";
-import HomePage from "@pages/HomePage";
-import theme from "./configs/muiConfig";
-import RegisterPage from "@pages/auth/RegisterPage";
-import "./index.css";
-import AuthLayout from "@pages/auth/AuthLayout";
-import LoginPage from "@pages/auth/LoginPage";
-import OTPVerifyPage from "@pages/auth/OTPVerifyPage";
 import { Provider } from "react-redux";
+
+import theme from "./configs/muiConfig";
 import store from "@redux/store";
+
 import RootLayout from "@pages/RootLayout";
 import PrivateRoute from "@components/PrivateRoute";
+
+import AuthLayout from "@pages/auth/AuthLayout";
+import RegisterPage from "@pages/auth/RegisterPage";
+
+import LoginPage from "@pages/auth/LoginPage";
+import OTPVerifyPage from "@pages/auth/OTPVerifyPage";
+
 import ForgotPassword from "@pages/auth/ForgotPassword";
 import VerifyEmail from "./pages/auth/VerifyEmail";
 import ResetPassword from "./pages/auth/ResetPassword";
+
+import HomePage from "@pages/HomePage";
+import "./index.css";
+import Dialog from "./components/Dialog/Dialog";
+import AccountSettingPage from "./pages/AccountSettingPage";
 
 const router = createBrowserRouter([
   {
@@ -51,10 +59,18 @@ const router = createBrowserRouter([
         ],
       },
       {
-        path: "/homepage",
+        path: "/",
         element: (
           <PrivateRoute>
             <HomePage />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/account-setting",
+        element: (
+          <PrivateRoute>
+            <AccountSettingPage />
           </PrivateRoute>
         ),
       },
@@ -72,6 +88,7 @@ createRoot(rootElement).render(
     <Provider store={store}>
       <ThemeProvider theme={theme}>
         <RouterProvider router={router} />
+        <Dialog />
       </ThemeProvider>
     </Provider>
   </StrictMode>,

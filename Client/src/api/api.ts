@@ -1,11 +1,11 @@
-import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
+import axios from "axios";
 
 interface FailedQueueItem {
   resolve: (token: string | null) => void;
   reject: (error: any) => void;
 }
 
-const api: AxiosInstance = axios.create({
+const api = axios.create({
   baseURL: "http://localhost:8000/",
   headers: {
     "Content-Type": "application/json",
@@ -14,7 +14,7 @@ const api: AxiosInstance = axios.create({
 });
 
 api.interceptors.request.use(
-  (config: AxiosRequestConfig) => {
+  (config) => {
     const token = localStorage.getItem("accessToken");
     if (token && config.headers) {
       config.headers.Authorization = `Bearer ${token}`;
@@ -24,7 +24,7 @@ api.interceptors.request.use(
   (error: any) => Promise.reject(error),
 );
 
-const refreshAccessToken = async (): Promise<string> => {
+const _refreshAccessToken = async (): Promise<string> => {
   try {
     const refreshToken = localStorage.getItem("refreshToken");
     if (!refreshToken) {
@@ -52,10 +52,10 @@ const refreshAccessToken = async (): Promise<string> => {
   }
 };
 
-let isRefreshing = false;
+let _isRefreshing = false;
 let failedQueue: FailedQueueItem[] = [];
 
-const processQueue = (error: any, token: string | null = null): void => {
+const _processQueue = (error: any, token: string | null = null): void => {
   failedQueue.forEach((prom) => {
     if (error) {
       prom.reject(error);
@@ -68,13 +68,14 @@ const processQueue = (error: any, token: string | null = null): void => {
 
 // Handle all responses
 api.interceptors.response.use(
-  (response: AxiosResponse) => response,
+  (response) => response,
   (error: any) => {
     console.error("API response error:", error);
 
     if (error.response?.status === 401 || error.response?.status === 403) {
       localStorage.removeItem("accessToken");
       localStorage.removeItem("refreshToken");
+      window.location.href = "/login";
     }
 
     return Promise.reject(error);

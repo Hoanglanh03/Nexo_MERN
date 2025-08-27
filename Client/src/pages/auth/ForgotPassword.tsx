@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@mui/material";
 import { useAppDispatch } from "@redux/hooks";
-import { openSnackbar } from "@redux/snackbarSlice";
+import { openSnackbar } from "@/redux/slices/snackbarSlice";
 import { sendOtp } from "@/api/auth";
 
 interface FormErrors {
@@ -12,7 +12,7 @@ interface FormErrors {
 const ForgotPassword: React.FC = () => {
   const [email, setEmail] = useState<string>("");
   const [errors, setErrors] = useState<FormErrors>({});
-  
+
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 

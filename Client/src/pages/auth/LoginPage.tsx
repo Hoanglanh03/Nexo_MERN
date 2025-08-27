@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@mui/material";
 import { useAppDispatch } from "@redux/hooks";
-import { openSnackbar } from "@redux/snackbarSlice";
-import { login } from "@redux/authSlice";
+import { openSnackbar } from "@/redux/slices/snackbarSlice";
+import { login } from "@/redux/slices/authSlice";
 import { loginUser } from "../../api/auth";
 import { LoginCredentials } from "@/types";
 
@@ -72,11 +72,12 @@ const LoginPage: React.FC = () => {
         );
 
         localStorage.setItem("accessToken", response.data.accessToken);
-        localStorage.setItem("refreshToken", response.data.refreshToken);
+        localStorage.setItem("userId", response.data.user.id);
+        // localStorage.setItem("refreshToken", response.data.refreshToken);
 
         dispatch(login(response.data));
-
-        navigate("/homepage");
+        console.log("response.data", response.data);
+        navigate("/");
       }
     } catch (err: any) {
       console.error("Login error:", err);
