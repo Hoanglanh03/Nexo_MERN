@@ -6,7 +6,9 @@ import morgan from "morgan";
 import dotenv from "dotenv";
 
 import Auth from "./routes/auth.router";
-import profileRoutes from "./routes/profile.router";
+import postRoutes from "./routes/post.router";
+import likeRoutes from "./routes/like.router";
+import User from "./routes/user.router";
 
 dotenv.config();
 
@@ -35,7 +37,13 @@ app.use(morgan("common"));
 
 // Routers
 app.use("/auth", Auth);
-app.use("/", profileRoutes);
+app.use("/users", User);
+
+//Post
+
+app.use(express.json());
+app.use("/posts", postRoutes);
+app.use("/posts", likeRoutes);
 
 app.listen(port, () => {
   console.log(`🚀 Server running on port ${port}`);

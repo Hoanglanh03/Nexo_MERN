@@ -29,7 +29,13 @@ const auth = (req: AuthRequest, res: Response, next: NextFunction): void => {
       token,
       process.env.ACCESS_TOKEN_SECRET || "fallback-secret"
     ) as JwtPayload;
-    req.user = decoded;
+
+    req.user = {
+      id: decoded.id,
+      email: decoded.email,
+      role: decoded.role,
+    };
+
     next();
   } catch (err) {
     res.status(403).json({ message: "Invalid or expired token" });
